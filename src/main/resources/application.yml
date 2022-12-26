@@ -1,1 +1,27 @@
+spring:
+  application:
+    name: News Feed Scraper
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${DATABASE_URL}
+    username:
+    password:
 
+
+crawl:
+  sources:
+    - name: Yahoo
+      url: https://finance.yahoo.com/news
+      parent-selector: //*[@id="Fin-Stream"]/ul
+      parent-selector-type: xpath
+      target-selector: article
+      target-selector-type: element
+      title-selector: h1
+      title-selector-type: element
+      author-selector: //*[@class="caas-author-byline-collapse"]
+      author-selector-type: xpath
+      date-selector: time
+      date-selector-type: element
+      valid-link-formats: /news/, https://finance.yahoo.com/news
+      image-selector: //img[@class="caas-img"]
+      image-selector-type: xpath
