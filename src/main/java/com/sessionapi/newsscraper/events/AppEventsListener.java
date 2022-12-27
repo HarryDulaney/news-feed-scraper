@@ -33,7 +33,11 @@ public class AppEventsListener {
         } catch (IOException e) {
             e.printStackTrace();
             log.info("CrawlSource MalformedException. Moving on to the next Crawl Source ");
-            crawlService.crawlNext();
+            try {
+                crawlService.crawlNext();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
         }
     }
 
@@ -42,7 +46,11 @@ public class AppEventsListener {
         long timestampMillis = event.getTimestamp();
         LocalDateTime localDateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(timestampMillis), ZoneId.systemDefault());
         log.info("Crawl next seed url... TimeStamp: " + localDateTime);
-        crawlService.crawlNext();
+        try {
+            crawlService.crawlNext();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

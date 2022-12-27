@@ -18,7 +18,7 @@ public class CrawlEventPublisher {
 
     public void publishStartCrawl(final String message) {
         log.info("Publishing start crawl event.");
-        CrawlNextEvent event = new CrawlNextEvent(this, Clock.systemDefaultZone());
+        StartCrawlEvent event = new StartCrawlEvent(this, Clock.systemDefaultZone());
         applicationEventPublisher.publishEvent(event);
     }
 

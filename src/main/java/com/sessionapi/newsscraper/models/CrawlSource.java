@@ -11,6 +11,7 @@ import lombok.Setter;
 @RequiredArgsConstructor
 public class CrawlSource implements Comparable<CrawlSource> {
     private String name;
+    private String startPointXPath;
     private String parentSelector;
     private String parentSelectorType;
     private String targetSelector;
@@ -31,4 +32,5 @@ public class CrawlSource implements Comparable<CrawlSource> {
         return Character.compare(this.getName().charAt(0), o.getName().charAt(0));
 
     }
+
 }

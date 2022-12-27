@@ -1,7 +1,7 @@
 package com.sessionapi.newsscraper.services;
 
 import com.sessionapi.newsscraper.entities.Article;
-import com.sessionapi.newsscraper.repositories.ArticleRepository;
+import com.sessionapi.newsscraper.repository.ArticleRepository;
 import org.springframework.stereotype.Service;
 
 @Service("ArticleService")

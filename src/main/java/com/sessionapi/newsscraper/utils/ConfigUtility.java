@@ -1,4 +1,4 @@
-package com.sessionapi.newsscraper.configurations;
+package com.sessionapi.newsscraper.utils;
 
 import com.sessionapi.newsscraper.common.Constants;
 import com.sessionapi.newsscraper.configurations.DataSourceProperties;
@@ -13,9 +13,15 @@ public class ConfigUtility {
      * @param dataSourceBuilder DataSourceBuilder<HikariDataSource>
      *                          to configure with database credentials
      */
-    static void parseDataSourceProperties(DataSourceBuilder<?> dataSourceBuilder,
-                                          DataSourceProperties dataSourceProperties) {
-        char[] raw = dataSourceProperties.getUrl().toCharArray();
+    public static void parseDataSourceProperties(DataSourceBuilder<?> dataSourceBuilder,
+                                                 DataSourceProperties dataSourceProperties) {
+        String dsProvidedUrl = dataSourceProperties.getUrl();
+        if (!dsProvidedUrl.startsWith("postgresql")) {
+            String usable = dsProvidedUrl.substring(8);
+            dsProvidedUrl = "postgresql".concat(usable);
+        }
+        char[] raw = dsProvidedUrl.toCharArray();
+
         StringBuilder unSb = new StringBuilder();
         StringBuilder pwSb = new StringBuilder();
         StringBuilder urlSb = new StringBuilder(Constants.JDBC_BASE_URL);
@@ -23,6 +29,7 @@ public class ConfigUtility {
             log.error("The DATABASE_URL environment variable is required.");
             return;
         }
+
         int i = 0;
         while (i < 13) {
             urlSb.append(raw[i++]);

@@ -1,4 +1,4 @@
-package com.sessionapi.newsscraper.repositories;
+package com.sessionapi.newsscraper.repository;
 
 import com.sessionapi.newsscraper.entities.Article;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,9 +1,6 @@
 package com.sessionapi.newsscraper.utils;
 
-import com.gargoylesoftware.htmlunit.html.HtmlArticle;
-import com.gargoylesoftware.htmlunit.html.HtmlElement;
-import com.gargoylesoftware.htmlunit.html.HtmlImage;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.html.*;
 import com.gargoylesoftware.htmlunit.javascript.host.html.HTMLImageElement;
 import com.sessionapi.newsscraper.common.Constants;
 
@@ -12,6 +9,11 @@ import java.time.Instant;
 import java.util.List;
 
 public class ScrapeUtility {
+
+    public static HtmlElement findStartingPointElement(String startPointXPath, HtmlPage page) {
+        return page.getFirstByXPath(startPointXPath);
+    }
+
     public static HtmlElement getDateElement(String selector,
                                              String selectorType,
                                              HtmlElement article) {
@@ -72,18 +74,14 @@ public class ScrapeUtility {
     }
 
     public static HtmlElement getParentElement(String parentSelector,
-                                               String parentSelectorType,
-                                               HtmlPage page) {
+                                               String parentSelectorType, DomElement nestedElement) {
         HtmlElement element = null;
         switch (parentSelectorType) {
             case Constants.SELECT_TYPE_ELEMENT:
-                element = (HtmlArticle) page.getElementsByTagName(parentSelector).get(0);
-                break;
-            case Constants.SELECT_TYPE_ID:
-                element = (HtmlArticle) page.getElementById(parentSelector);
+                element = (HtmlArticle) nestedElement.getElementsByTagName(parentSelector).get(0);
                 break;
             case Constants.SELECT_TYPE_XPATH:
-                element = page.getFirstByXPath(parentSelector);
+                element = nestedElement.getFirstByXPath(parentSelector);
                 break;
         }
         return element;
@@ -96,9 +94,6 @@ public class ScrapeUtility {
         switch (titleSelectorType) {
             case Constants.SELECT_TYPE_ELEMENT:
                 element = articleElement.getEnclosingElement(titleSelector);
-                break;
-            case Constants.SELECT_TYPE_ID:
-                element = articleElement.getElementsByAttribute("h1", "id", titleSelector).get(0);
                 break;
             case Constants.SELECT_TYPE_XPATH:
                 element = articleElement.getFirstByXPath(titleSelector);

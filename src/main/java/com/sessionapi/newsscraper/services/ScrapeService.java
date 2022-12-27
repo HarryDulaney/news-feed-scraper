@@ -2,7 +2,6 @@ package com.sessionapi.newsscraper.services;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.*;
-import com.gargoylesoftware.htmlunit.javascript.host.html.HTMLImageElement;
 import com.sessionapi.newsscraper.entities.Article;
 import com.sessionapi.newsscraper.models.CrawlSource;
 import com.sessionapi.newsscraper.utils.ScrapeUtility;
@@ -10,9 +9,7 @@ import com.sessionapi.newsscraper.utils.ValidationUtility;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service("ScrapeService")
@@ -24,16 +21,17 @@ public class ScrapeService {
     }
 
     public List<String> getSourceUrls(CrawlSource source) throws IOException {
-        HtmlPage seedPage = webClient.getPage(source.getUrl());
-        webClient.waitForBackgroundJavaScriptStartingBefore(1000);
+        webClient.waitForBackgroundJavaScript(1000);
         webClient.getOptions().setCssEnabled(false);
         webClient.getOptions().setJavaScriptEnabled(false);
+        HtmlPage seedPage = webClient.getPage(source.getUrl());
         return findArticleUrls(source, seedPage);
     }
 
     private List<String> findArticleUrls(CrawlSource crawlSource, HtmlPage page) {
         List<String> articleLinks = new ArrayList<>();
-        HtmlElement parentListElement = ScrapeUtility.getParentElement(crawlSource.getParentSelector(), crawlSource.getParentSelectorType(), page);
+        HtmlElement startingPointElement = ScrapeUtility.findStartingPointElement(crawlSource.getStartPointXPath(), page);
+        HtmlElement parentListElement = ScrapeUtility.getParentElement(crawlSource.getParentSelector(), crawlSource.getParentSelectorType(), startingPointElement);
         List<DomNode> articleElements = parentListElement.querySelectorAll("a"); // Get <a> element tags from under <ul>
         for (DomNode domNode : articleElements) {
             HtmlAnchor anchor = (HtmlAnchor) domNode;

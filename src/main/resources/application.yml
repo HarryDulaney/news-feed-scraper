@@ -4,24 +4,29 @@ spring:
   datasource:
     driver-class-name: org.postgresql.Driver
     url: ${DATABASE_URL}
-    username:
-    password:
 
+  jpa:
+    generate-ddl: false
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: none
+      dialect:
 
 crawl:
   sources:
     - name: Yahoo
       url: https://finance.yahoo.com/news
-      parent-selector: //*[@id="Fin-Stream"]/ul
+      start-point-xPath: //*[@id="Main"]
+      parent-selector: //*[@id="Fin-Stream"]
       parent-selector-type: xpath
       target-selector: article
       target-selector-type: element
-      title-selector: h1
-      title-selector-type: element
-      author-selector: //*[@class="caas-author-byline-collapse"]
+      title-selector: ./h1
+      title-selector-type: xpath
+      author-selector: ./*[@class="caas-author-byline-collapse"]
       author-selector-type: xpath
       date-selector: time
       date-selector-type: element
       valid-link-formats: /news/, https://finance.yahoo.com/news
-      image-selector: //img[@class="caas-img"]
+      image-selector: ./img[@class="caas-img"]
       image-selector-type: xpath
