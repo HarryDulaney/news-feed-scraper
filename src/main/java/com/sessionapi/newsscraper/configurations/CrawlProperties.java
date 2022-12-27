@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "crawl")
 public class CrawlProperties {
     private CrawlSource[] sources;
+    private String cronExpression;
 
     public CrawlSource[] getSources() {
         return sources;
@@ -15,5 +16,13 @@ public class CrawlProperties {
 
     public void setSources(CrawlSource[] sources) {
         this.sources = sources;
+    }
+
+    public String getCronExpression() {
+        return cronExpression;
+    }
+
+    public void setCronExpression(String cronExpression) {
+        this.cronExpression = cronExpression;
     }
 }

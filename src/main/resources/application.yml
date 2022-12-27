@@ -12,6 +12,7 @@ spring:
       ddl-auto: none
 
 crawl:
+  cron-expression: "0 0 0 * * *"
   sources:
     - name: Yahoo
       url: https://finance.yahoo.com/news
@@ -29,3 +30,14 @@ crawl:
       valid-link-formats: /news/, https://finance.yahoo.com/news
       image-selector: ./img[@class="caas-img"]
       image-selector-type: xpath
+
+
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+
+crawl:
+  cron-expression: "0 * * * * *"

@@ -37,7 +37,7 @@ public class CrawlService {
         if (!ValidationUtility.isValid(crawlProperties)) {
             crawlEventPublisher.publishErrorEvent("Invalid Crawl Properties from configuration... At least 1 Source property is required.");
         } else {
-            NEXT_SEED_INDEX++;
+            NEXT_SEED_INDEX = 0;
             CrawlSource source = sources[NEXT_SEED_INDEX];
             List<String> subLinks = scrapeService.getSourceUrls(source);
             for (String link : subLinks) {
