@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -41,14 +42,15 @@ public class CrawlService {
             CrawlSource source = sources[NEXT_SEED_INDEX];
             List<String> subLinks = scrapeService.getSourceUrls(source);
             for (String link : subLinks) {
-                try {
-                    Article article = scrapeService.scrape(link, source);
-                    articleService.save(article);
+                log.info("Link Found to scrape: " + link);
+//                try {
+       /*             Article article = scrapeService.scrape(link, source);
+                    articleService.save(article);*/
 
-                } catch (Exception exception) {
-                    exception.printStackTrace();
-                    log.info("Unable to scrape link: " + link);
-                }
+//                } catch (Exception exception) {
+//                    exception.printStackTrace();
+//                    log.info("Unable to scrape link: " + link);
+//                }
             }
             crawlEventPublisher.publishCrawlNext("Crawl Next");
         }
@@ -61,7 +63,7 @@ public class CrawlService {
             crawlEventPublisher.publishCrawlEnding("End of Seed Urls reached.");
         } else {
             CrawlSource source = sources[NEXT_SEED_INDEX];
-            List<String> subLinks = scrapeService.getSourceUrls(source);
+            List<String> subLinks = new ArrayList<>(); /*scrapeService.getSourceUrls(source);*/
             for (String link : subLinks) {
                 try {
                     Article article = scrapeService.scrape(link, source);

@@ -1,10 +1,10 @@
 package com.sessionapi.newsscraper.utils;
 
-import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.sessionapi.newsscraper.configurations.CrawlProperties;
 import com.sessionapi.newsscraper.entities.Article;
 import com.sessionapi.newsscraper.models.CrawlSource;
 import com.sessionapi.newsscraper.common.Constants;
+import org.openqa.selenium.WebElement;
 
 import java.util.Objects;
 
@@ -32,8 +32,8 @@ public class ValidationUtility {
         return (sources.length > nextSeedIndex && sources[nextSeedIndex] != null);
     }
 
-    public static boolean isValidArticleLink(HtmlAnchor anchor, CrawlSource crawlSource) {
-        String href = anchor.getHrefAttribute();
+    public static boolean isValidArticleLink(WebElement element, CrawlSource crawlSource) {
+        String href = element.getDomAttribute("href");
         for (String validFormat : crawlSource.getValidLinkFormats()) {
             if (href.startsWith(validFormat)) {
                 return Boolean.TRUE;

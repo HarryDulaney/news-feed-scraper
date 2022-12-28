@@ -16,22 +16,19 @@ crawl:
   sources:
     - name: Yahoo
       url: https://finance.yahoo.com/news
-      start-point-xPath: //*[@id="Main"]
-      parent-selector: //*[@id="Fin-Stream"]
-      parent-selector-type: xpath
+      target-article-count: 40
+      start-point-xPath: //*[@id="Fin-Stream"]/ul/li
       target-selector: article
       target-selector-type: element
-      title-selector: ./h1
+      title-selector: h1
       title-selector-type: xpath
-      author-selector: ./*[@class="caas-author-byline-collapse"]
+      author-selector: //*[@class="caas-author-byline-collapse"]
       author-selector-type: xpath
       date-selector: time
       date-selector-type: element
       valid-link-formats: /news/, https://finance.yahoo.com/news
-      image-selector: ./img[@class="caas-img"]
+      image-selector: img[@class="caas-img"]
       image-selector-type: xpath
-
-
 
 ---
 spring:

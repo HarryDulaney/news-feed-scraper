@@ -6,6 +6,7 @@ public class Constants {
     public static final String SELECT_TYPE_ELEMENT = "element";
     public static final String SELECT_TYPE_CLASS = "class";
     public static final String SELECT_TYPE_XPATH = "xpath";
+    public static final String SELECT_TYPE_NONE = "none";
 
 
     private Constants () throws IllegalAccessException {

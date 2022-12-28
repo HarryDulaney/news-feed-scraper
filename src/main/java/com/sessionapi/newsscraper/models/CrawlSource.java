@@ -11,9 +11,10 @@ import lombok.Setter;
 @RequiredArgsConstructor
 public class CrawlSource implements Comparable<CrawlSource> {
     private String name;
+    private Integer targetArticleCount;
     private String startPointXPath;
-    private String parentSelector;
-    private String parentSelectorType;
+    private String articleSelector;
+    private String articleSelectorType;
     private String targetSelector;
     private String targetSelectorType;
     private String titleSelector;

@@ -1,19 +1,16 @@
 package com.sessionapi.newsscraper.utils;
 
-import com.gargoylesoftware.htmlunit.html.*;
-import com.gargoylesoftware.htmlunit.javascript.host.html.HTMLImageElement;
 import com.sessionapi.newsscraper.common.Constants;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
-import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.List;
+
 
 public class ScrapeUtility {
 
-    public static HtmlElement findStartingPointElement(String startPointXPath, HtmlPage page) {
-        return page.getFirstByXPath(startPointXPath);
-    }
-
+/*
     public static HtmlElement getDateElement(String selector,
                                              String selectorType,
                                              HtmlElement article) {
@@ -122,5 +119,5 @@ public class ScrapeUtility {
                 break;
         }
         return image;
-    }
+    }*/
 }
