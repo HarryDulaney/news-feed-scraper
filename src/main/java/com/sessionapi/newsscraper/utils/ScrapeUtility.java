@@ -5,11 +5,15 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 
 
 public class ScrapeUtility {
-
+    public static Timestamp timeStampNow() {
+        return Timestamp.from(Instant.now());
+    }
 /*
     public static HtmlElement getDateElement(String selector,
                                              String selectorType,
@@ -99,9 +103,6 @@ public class ScrapeUtility {
         return element;
     }
 
-    public static Timestamp timeStampNow() {
-        return Timestamp.from(Instant.now());
-    }
 
     public static HtmlImage getImageElement(String imageSelector,
                                             String imageSelectorType,

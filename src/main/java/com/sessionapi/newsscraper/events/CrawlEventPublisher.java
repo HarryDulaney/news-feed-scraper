@@ -17,32 +17,38 @@ public class CrawlEventPublisher {
     }
 
     public void publishStartCrawl(final String message) {
-        log.info("Publishing start crawl event.");
+        log.debug("Publishing start crawl event.");
         StartCrawlEvent event = new StartCrawlEvent(this, Clock.systemDefaultZone());
         applicationEventPublisher.publishEvent(event);
     }
 
     public void publishCrawlNext(final String message) {
-        log.info("Publishing start scrape event...");
+        log.debug("Publishing start scrape event...");
         CrawlNextEvent event = new CrawlNextEvent(this, Clock.systemDefaultZone());
         applicationEventPublisher.publishEvent(event);
     }
 
     public void publishCrawlSuccess(final Article article) {
-        log.info("Publishing crawl seed success event...");
+        log.debug("Publishing crawl seed success event...");
         CrawlSuccessEvent event = new CrawlSuccessEvent(this, Clock.systemDefaultZone(), article);
         applicationEventPublisher.publishEvent(event);
     }
 
     public void publishCrawlEnding(final String message) {
-        log.info("Publishing crawl end event. With message: " + message);
+        log.debug("Publishing crawl end event. With message: " + message);
         CrawlEndEvent event = new CrawlEndEvent(this, Clock.systemDefaultZone());
         applicationEventPublisher.publishEvent(event);
     }
 
+    public void publishErrorEvent(final String message, Exception exception) {
+        log.debug("Publishing a CrawlErrorEvent. With message: " + message);
+        CrawlErrorEvent event = new CrawlErrorEvent(this, Clock.systemDefaultZone(), exception);
+        applicationEventPublisher.publishEvent(event);
+    }
+
     public void publishErrorEvent(final String message) {
-        log.info("Publishing a CrawlErrorEvent. With message: " + message);
-        CrawlErrorEvent event = new CrawlErrorEvent(this, Clock.systemDefaultZone(), new RuntimeException(message));
+        log.debug("Publishing CrawlErrorEvent...");
+        CrawlErrorEvent event = new CrawlErrorEvent(this, Clock.systemDefaultZone(), message);
         applicationEventPublisher.publishEvent(event);
     }
 }

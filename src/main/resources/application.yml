@@ -18,17 +18,14 @@ crawl:
       url: https://finance.yahoo.com/news
       target-article-count: 40
       start-point-xPath: //*[@id="Fin-Stream"]/ul/li
-      target-selector: article
-      target-selector-type: element
-      title-selector: h1
-      title-selector-type: xpath
-      author-selector: //*[@class="caas-author-byline-collapse"]
-      author-selector-type: xpath
-      date-selector: time
-      date-selector-type: element
+      has-context-json: true
+      article-element: article
+      origin-xPath: //*[@class="caas-logo"]/a
+      title-xPath: //*[@class="caas-title-wrapper"]/h1
+      author-xPath: //*[@class="caas-author-byline-collapse"]
+      date-xPath: //*[@class="caas-attr-time-style"]/time
       valid-link-formats: /news/, https://finance.yahoo.com/news
-      image-selector: img[@class="caas-img"]
-      image-selector-type: xpath
+      image-xPath: //*[@class="caas-img-container"]//*[@class="caas-img"]
 
 ---
 spring:

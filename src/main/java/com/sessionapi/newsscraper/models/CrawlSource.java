@@ -13,18 +13,14 @@ public class CrawlSource implements Comparable<CrawlSource> {
     private String name;
     private Integer targetArticleCount;
     private String startPointXPath;
-    private String articleSelector;
-    private String articleSelectorType;
-    private String targetSelector;
-    private String targetSelectorType;
-    private String titleSelector;
-    private String titleSelectorType;
-    private String authorSelector;
-    private String authorSelectorType;
-    private String dateSelector;
-    private String dateSelectorType;
-    private String imageSelector;
-    private String imageSelectorType;
+    private String articleElement;
+    private String originXPath;
+    private String titleXPath;
+    private boolean hasContextJson;
+    private String keywordsSelector;
+    private String authorXPath;
+    private String dateXPath;
+    private String imageXPath;
     private String[] validLinkFormats;
     private String url;
 

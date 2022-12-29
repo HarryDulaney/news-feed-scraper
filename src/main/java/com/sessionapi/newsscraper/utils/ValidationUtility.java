@@ -3,7 +3,6 @@ package com.sessionapi.newsscraper.utils;
 import com.sessionapi.newsscraper.configurations.CrawlProperties;
 import com.sessionapi.newsscraper.entities.Article;
 import com.sessionapi.newsscraper.models.CrawlSource;
-import com.sessionapi.newsscraper.common.Constants;
 import org.openqa.selenium.WebElement;
 
 import java.util.Objects;
@@ -18,8 +17,7 @@ public class ValidationUtility {
 
     public static boolean isValid(Article article) {
         if (Objects.isNull(article.getTitle()) || Objects.isNull(article.getHtmlContent()) ||
-                Objects.isNull(article.getAuthorFullName()) || Objects.isNull(article.getOriginUrl()) ||
-                Objects.isNull(article.getSourcePublisher()) || Objects.isNull(article.getPublishDate())) {
+                Objects.isNull(article.getOriginUrl()) || Objects.isNull(article.getPublishDate())) {
             return Boolean.FALSE;
         }
 

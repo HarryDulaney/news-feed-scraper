@@ -24,10 +24,14 @@ import java.util.Date;
 )
 public class Article {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "scrape_origin_url")
+    private String scrapeOriginUrl;
     @Column(name = "origin_url")
     private String originUrl;
+
     @Column(name = "author_full_name")
     private String authorFullName;
 
@@ -42,9 +46,6 @@ public class Article {
 
     @Column(name = "scanned_timestamp")
     private Timestamp scannedTimestamp;
-
-    @Column(name = "source_publisher")
-    private String sourcePublisher;
 
     @Type(type = "string-array")
     @Column(

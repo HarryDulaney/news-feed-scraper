@@ -7,7 +7,7 @@ import org.springframework.core.io.Resource;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
-@Profile("!local")
+@Profile("prod")
 @Configuration
 public class SeleniumConfig {
     @PostConstruct
