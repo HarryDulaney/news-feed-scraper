@@ -40,36 +40,7 @@ public class AppEventsListener {
         long timestampMillis = event.getTimestamp();
         LocalDateTime localDateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(timestampMillis), ZoneId.systemDefault());
         log.info("Starting Crawl Service. TimeStamp: " + localDateTime);
-        try {
-            crawlService.startCrawl();
-        } catch (Exception e) {
-            e.printStackTrace();
-            log.info("Exception. Moving on to the next Crawl Source ");
-            try {
-                crawlService.crawlNext();
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-        }
-    }
-
-    @EventListener(classes = CrawlNextEvent.class)
-    public void onCrawlNextEvent(CrawlNextEvent event) {
-        long timestampMillis = event.getTimestamp();
-        LocalDateTime localDateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(timestampMillis), ZoneId.systemDefault());
-        log.info("Crawl next seed url... TimeStamp: " + localDateTime);
-        try {
-            crawlService.crawlNext();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-
-    @EventListener(classes = CrawlSuccessEvent.class)
-    public void onCrawlSuccessEvent(CrawlSuccessEvent event) {
-        log.info("Crawl Success...");
-        articleService.save(event.getArticle());
+        crawlService.startCrawl();
     }
 
     @EventListener(classes = CrawlErrorEvent.class)

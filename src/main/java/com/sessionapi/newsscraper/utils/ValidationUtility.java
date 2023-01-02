@@ -25,11 +25,6 @@ public class ValidationUtility {
 
     }
 
-
-    public static boolean hasNextCrawl(int nextSeedIndex, CrawlSource[] sources) {
-        return (sources.length > nextSeedIndex && sources[nextSeedIndex] != null);
-    }
-
     public static boolean isValidArticleLink(WebElement element, CrawlSource crawlSource) {
         String href = element.getDomAttribute("href");
         for (String validFormat : crawlSource.getValidLinkFormats()) {

@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository("ArticleRepository")
 public interface ArticleRepository extends JpaRepository<Article, Long> {
+    void deleteAllByTitle(String title);
 }

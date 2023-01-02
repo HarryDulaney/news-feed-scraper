@@ -1,24 +1,23 @@
 package com.sessionapi.newsscraper.services;
 
-import com.sessionapi.newsscraper.entities.Article;
-import com.sessionapi.newsscraper.utils.ValidationUtility;
-import com.sessionapi.newsscraper.models.CrawlSource;
-import com.sessionapi.newsscraper.events.CrawlEventPublisher;
 import com.sessionapi.newsscraper.configurations.CrawlProperties;
+import com.sessionapi.newsscraper.entities.Article;
+import com.sessionapi.newsscraper.events.CrawlEventPublisher;
+import com.sessionapi.newsscraper.models.CrawlSource;
+import com.sessionapi.newsscraper.utils.ValidationUtility;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @Service("CrawlService")
 public class CrawlService {
-    private static int NEXT_SEED_INDEX = -1;
     private final CrawlSource[] sources;
     private final CrawlProperties crawlProperties;
     private final CrawlEventPublisher crawlEventPublisher;
-    private ScrapeService scrapeService;
+    private final ScrapeService scrapeService;
     private final ArticleService articleService;
 
     public CrawlService(ScrapeService scrapeService,
@@ -33,53 +32,36 @@ public class CrawlService {
     }
 
 
-    public void startCrawl() throws IOException {
+    public void startCrawl() {
         if (!ValidationUtility.isValid(crawlProperties)) {
             crawlEventPublisher.publishErrorEvent("Invalid Crawl Properties from configuration... At least 1 Source property is required.");
         } else {
-            NEXT_SEED_INDEX = 0;
-            CrawlSource source = sources[NEXT_SEED_INDEX];
-            List<String> subLinks = scrapeService.getSourceUrls(source);
-            for (String link : subLinks) {
-                log.info("Scraping from: " + link);
-                try {
-                    Article article = scrapeService.scrape(link, source);
-                    articleService.save(article);
-
-                } catch (Exception exception) {
-                    exception.printStackTrace();
-                    log.info("Unable to scrape link: " + link);
-                }
+            int NEXT_SEED_INDEX = 0;
+            int totalSources = sources.length;
+            while (NEXT_SEED_INDEX < totalSources) {
+                crawl(NEXT_SEED_INDEX);
+                NEXT_SEED_INDEX++;
             }
-            crawlEventPublisher.publishCrawlNext("Crawl Next");
+            crawlEventPublisher.publishCrawlEnding("End has been reached... all sources are crawled.");
         }
 
     }
 
-    public void crawlNext() throws IOException {
-        NEXT_SEED_INDEX++;
-        if (!ValidationUtility.hasNextCrawl(NEXT_SEED_INDEX, sources)) {
-            crawlEventPublisher.publishCrawlEnding("End of Seed Urls reached.");
-        } else {
-            CrawlSource source = sources[NEXT_SEED_INDEX];
-            List<String> subLinks = scrapeService.getSourceUrls(source);
-            for (String link : subLinks) {
-                try {
-                    Article article = scrapeService.scrape(link, source);
-                    articleService.save(article);
-
-                } catch (Exception exception) {
-                    exception.printStackTrace();
-                    log.info("Unable to scrape link: " + link);
-                }
+    private void crawl(int seedIndex) {
+        CrawlSource source = sources[seedIndex];
+        log.info("Crawling new seed source: " + source.getName());
+        Set<String> subLinks = scrapeService.getSourceUrls(source);
+        log.info("Seed source has this many unique links to scrape #: " + subLinks.size());
+        for (String link : subLinks) {
+            log.info("Scraping from: " + link);
+            Article article = scrapeService.scrape(link, source);
+            if (article == null) {
+                continue;
             }
 
-            crawlEventPublisher.publishCrawlNext("Crawl Next");
+            articleService.clean(article);
+            articleService.save(article);
 
         }
-    }
-
-    public CrawlSource getCurrentSource() {
-        return sources[NEXT_SEED_INDEX];
     }
 }
